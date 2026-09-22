@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Para CINDY with cariño de KIrby</title>
+    <!-- Incluimos fuentes elegantes para el mensaje -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color-1: #e0f7fa; /* Azul cielo suave */
+            --bg-color-2: #fffde7; /* Amarillo cremoso */
+            --flower-yellow: #fbc02d; /* Amarillo principal */
+            --flower-center: #8d6e63; /* Centro marrón */
+            --flower-stem: #4caf50; /* Tallo verde */
+            --heart-pink: #f48fb1; /* Rosa para corazones */
+            --text-color: #5d4037; /* Marrón oscuro para texto */
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            width: 100vw;
+            height: 100vh;
+            background: linear-gradient(to bottom, var(--bg-color-1), var(--bg-color-2));
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            font-family: 'Poppins', sans-serif;
+            color: var(--text-color);
+        }
+
+        .message-container {
+            text-align: center;
+            z-index: 20;
+            opacity: 0;
+            animation: fadeInMessage 2s ease-out forwards;
+            position: relative;
+            margin-bottom: 20px;
+        }
+
+        .message-container h1 {
+            font-family: 'Dancing Script', cursive;
+            font-size: 3rem;
+            margin: 0;
+            line-height: 1.2;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+
+        /* Partículas de brillo y corazones */
+        #particle-garden {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: 10;
+        }
+
+        .particle {
+            position: absolute;
+            bottom: -50px;
+            animation: riseDiagonal linear infinite;
+        }
+
+        /* Corazón CSS animado */
+        .heart {
+            width: 15px;
+            height: 15px;
+            background-color: rgba(255, 64, 129, 0.7); /* Rosa/Rojo suave */
+            transform: rotate(-45deg);
+            opacity: 0;
+        }
+
+        .heart::before,
+        .heart::after {
+            content: '';
+            position: absolute;
+            width: 15px;
+            height: 15px;
+            background: inherit;
+            border-radius: 50%;
+        }
+
+        .heart::before {
+            top: -7.5px;
+            left: 0;
+        }
+
+        .heart::after {
+            top: 0;
+            left: 7.5px;
+        }
+
+        /* Flor animada (similar a antes, pero adaptada) */
+        .flower {
+            position: absolute;
+            width: 30px;
+            transform-origin: bottom center;
+            animation: riseDiagonal linear infinite;
+            opacity: 0;
+        }
+
+        .stem {
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 4px;
+            background-color: var(--flower-stem);
+            border-radius: 2px;
+            height: 70px;
+        }
+
+        .flower-head {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .flower-center {
+            position: absolute;
+            width: 15px;
+            height: 15px;
+            background-color: var(--flower-center);
+            border-radius: 50%;
+            z-index: 2;
+        }
+
+        .petal {
+            position: absolute;
+            width: 10px;
+            height: 18px;
+            background-color: var(--flower-yellow);
+            border-radius: 50%;
+            transform-origin: bottom center;
+        }
+
+        /* Hojas para flores */
+        .leaf {
+            position: absolute;
+            width: 20px;
+            height: 10px;
+            background-color: var(--flower-stem);
+            border-radius: 0 10px 0 10px;
+            z-index: -1;
+        }
+
+        .leaf.left {
+            left: -15px;
+            top: 20px;
+            transform: rotate(-30deg);
+        }
+
+        .leaf.right {
+            right: -15px;
+            top: 30px;
+            transform: rotate(30deg);
+        }
+
+        /* Partículas de brillo */
+        .sparkle {
+            position: absolute;
+            width: 5px;
+            height: 5px;
+            background-color: rgba(255, 255, 255, 0.7);
+            border-radius: 50%;
+            animation: sparkleFloat linear infinite;
+            opacity: 0;
+        }
+
+        /* Animaciones */
+        @keyframes fadeInMessage {
+            0% { opacity: 0; transform: translateY(-20px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes riseDiagonal {
+            0% {
+                transform: translateX(0) translateY(0) rotate(var(--rotX));
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            80% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateX(var(--endX)) translateY(-120vh) rotate(var(--rotX, -45deg));
+                opacity: 0;
+            }
+        }
+
+        @keyframes sparkleFloat {
+            0% {
+                transform: translateY(0) rotate(0deg);
+                opacity: 0;
+            }
+            50% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="message-container">
+        <h1>Para CINDY 💛<br> con mucho cariño 💖<br> de KIrby</h1>
+    </div>
+
+    <div id="particle-garden"></div>
+
+    <script>
+        const garden = document.getElementById('particle-garden');
+        const numFlowers = 35; // Flores
+        const numHearts = 20;   // Corazones
+        const numSparkles = 60; // Brillos
+
+        function createHeart() {
+            const heart = document.createElement('div');
+            heart.className = 'particle heart';
+            heart.style.left = `${Math.random() * 100}vw`;
+            
+            // Variación aleatoria de trayectoria diagonal y rotación
+            const endX = (Math.random() - 0.5) * 50; // -25vw a 25vw
+            heart.style.setProperty('--endX', `${endX}vw`);
+            heart.style.animationDuration = `${5 + Math.random() * 5}s`; // 5-10s
+            heart.style.animationDelay = `${Math.random() * 10}s`;
+
+            garden.appendChild(heart);
+        }
+
+        function createFlower() {
+            const flower = document.createElement('div');
+            flower.className = 'flower';
+            flower.style.left = `${Math.random() * 100}vw`;
+            
+            // Variación aleatoria de trayectoria diagonal
+            const endX = (Math.random() - 0.5) * 50; // -25vw a 25vw
+            flower.style.setProperty('--endX', `${endX}vw`);
+            flower.style.animationDuration = `${6 + Math.random() * 6}s`; // 6-12s
+            flower.style.animationDelay = `${Math.random() * 10}s`;
+
+            // Configuración del tallo
+            const stem = document.createElement('div');
+            stem.className = 'stem';
+            stem.style.height = `${70 + Math.random() * 50}px`;
+
+            // Hojas
+            stem.appendChild(document.createElement('div')).className = 'leaf left';
+            stem.appendChild(document.createElement('div')).className = 'leaf right';
+            flower.appendChild(stem);
+
+            // Cabeza de flor
+            const head = document.createElement('div');
+            head.className = 'flower-head';
+            head.appendChild(document.createElement('div')).className = 'flower-center';
+
+            // Pétalos (más detallado)
+            for (let i = 0; i < 16; i++) {
+                const petal = document.createElement('div');
+                petal.className = 'petal';
+                petal.style.transform = `rotate(${i * 22.5}deg) translateY(-18px)`;
+                head.appendChild(petal);
+            }
+            flower.appendChild(head);
+
+            garden.appendChild(flower);
+        }
+
+        function createSparkle() {
+            const sparkle = document.createElement('div');
+            sparkle.className = 'sparkle';
+            sparkle.style.left = `${Math.random() * 100}vw`;
+            sparkle.style.bottom = `${Math.random() * 100}vh`;
+            sparkle.style.animationDuration = `${3 + Math.random() * 3}s`;
+            sparkle.style.animationDelay = `${Math.random() * 5}s`;
+            garden.appendChild(sparkle);
+        }
+
+        // Generar elementos iniciales
+        for (let i = 0; i < numFlowers; i++) createFlower();
+        for (let i = 0; i < numHearts; i++) createHeart();
+        for (let i = 0; i < numSparkles; i++) createSparkle();
+
+        // Seguir generando continuamente
+        setInterval(createFlower, 1500); 
+        setInterval(createHeart, 2500); // Generar corazones menos frecuentemente
+        setInterval(createSparkle, 300); // Brillos continuos
+    </script>
+</body>
+</html>
