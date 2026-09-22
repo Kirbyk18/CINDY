@@ -24,10 +24,12 @@
             z-index: 20;
             animation: fadeInText 3s ease-in-out forwards;
             opacity: 0;
-            padding: 0 20px;
+            padding: 0 15px;
+            pointer-events: none; /* Para que no estorbe al interactuar con las flores */
+            width: 100%;
+            box-sizing: border-box;
         }
 
-        /* Estilo basado en la imagen */
         .main-title {
             color: #fce83a;
             font-size: 3.5rem;
@@ -39,17 +41,31 @@
         .subtitle {
             color: #ffffff;
             font-size: 1.3rem;
-            margin: 10px 0 25px 0;
+            margin: 10px 0 20px 0;
             font-weight: 400;
         }
 
-        /* Tu dedicatoria personalizada */
         .personal-message {
             color: #ffeb3b;
             font-size: 2rem;
             margin: 0;
             text-shadow: 0 0 15px rgba(255, 235, 59, 0.5);
             font-style: italic;
+        }
+
+        /* --- MEDIA QUERIES PARA RESPONSIVIDAD (MÓVILES Y TABLETS) --- */
+        @media (max-width: 768px) {
+            .message-container { top: 8%; }
+            .main-title { font-size: 2.5rem; }
+            .subtitle { font-size: 1rem; margin: 8px 0 15px 0; }
+            .personal-message { font-size: 1.5rem; }
+        }
+
+        @media (max-width: 480px) {
+            .message-container { top: 5%; }
+            .main-title { font-size: 2rem; }
+            .subtitle { font-size: 0.9rem; margin: 5px 0 10px 0; }
+            .personal-message { font-size: 1.2rem; }
         }
 
         .bouquet {
@@ -69,7 +85,7 @@
         }
 
         .stem {
-            width: 7px;
+            width: 6px;
             background: linear-gradient(to top, #1b5e20, #4caf50);
             border-radius: 4px;
             position: relative;
@@ -80,8 +96,8 @@
 
         .leaf {
             position: absolute;
-            width: 30px;
-            height: 15px;
+            width: 25px;
+            height: 12px;
             background: #4caf50;
             border-radius: 0 15px 0 15px;
             top: 40%;
@@ -107,6 +123,20 @@
             transform: translateX(-50%) scale(0);
             animation: bloom 1.5s ease-out forwards;
             z-index: 5;
+            cursor: pointer;
+            /* Evita el destello azul al tocar en móviles */
+            -webkit-tap-highlight-color: transparent; 
+        }
+
+        /* Hitbox invisible más grande para facilitar el toque en móviles */
+        .flower-head::after {
+            content: '';
+            position: absolute;
+            top: -40px;
+            left: -40px;
+            right: -40px;
+            bottom: -40px;
+            border-radius: 50%;
         }
 
         .flower-center {
@@ -117,85 +147,91 @@
             z-index: 2;
             border-radius: 50%;
             box-shadow: inset 0 0 10px rgba(0,0,0,0.5);
+            pointer-events: none;
         }
 
-        /* Girasol clásico */
         .sunflower .flower-center {
-            width: 40px;
-            height: 40px;
+            width: 35px;
+            height: 35px;
             background: radial-gradient(circle, #3e2723, #5d4037);
         }
         .sunflower .petal {
             position: absolute;
-            width: 15px;
-            height: 50px;
+            width: 12px;
+            height: 45px;
             background: linear-gradient(to bottom, #fff176, #fbc02d);
             border-radius: 50% 50% 20% 20%;
             bottom: 50%;
             left: 50%;
-            margin-left: -7.5px;
+            margin-left: -6px;
             transform-origin: bottom center;
             box-shadow: 0 0 5px rgba(255, 235, 59, 0.4);
+            pointer-events: none;
         }
 
-        /* Margarita amarilla */
         .daisy .flower-center {
-            width: 30px;
-            height: 30px;
+            width: 25px;
+            height: 25px;
             background: radial-gradient(circle, #fbc02d, #f57f17);
         }
         .daisy .petal {
             position: absolute;
-            width: 10px;
-            height: 45px;
+            width: 8px;
+            height: 35px;
             background: linear-gradient(to bottom, #fff59d, #ffee58);
             border-radius: 50px;
             bottom: 50%;
             left: 50%;
-            margin-left: -5px;
+            margin-left: -4px;
             transform-origin: bottom center;
             box-shadow: 0 0 3px rgba(255, 255, 255, 0.3);
+            pointer-events: none;
         }
 
-        /* Corazones amarillos flotantes */
         .yellow-heart {
             position: absolute;
-            width: 15px;
-            height: 15px;
+            width: 12px;
+            height: 12px;
             background-color: #ffeb3b;
             transform: rotate(-45deg);
             opacity: 0;
             animation: floatHeart 7s linear infinite;
             z-index: 10;
+            pointer-events: none;
         }
         .yellow-heart::before,
         .yellow-heart::after {
             content: '';
             position: absolute;
-            width: 15px;
-            height: 15px;
+            width: 12px;
+            height: 12px;
             background-color: #ffeb3b;
             border-radius: 50%;
         }
         .yellow-heart::before {
-            top: -7.5px;
+            top: -6px;
             left: 0;
         }
         .yellow-heart::after {
             top: 0;
-            left: 7.5px;
+            left: 6px;
         }
 
-        /* Brillos de fondo */
         .sparkle {
             position: absolute;
             background-color: #fff;
             border-radius: 50%;
             opacity: 0;
             animation: floatingSparkle 4s linear infinite;
+            pointer-events: none;
         }
 
-        /* Animaciones */
+        .falling-petal {
+            position: absolute;
+            z-index: 15;
+            pointer-events: none;
+        }
+
         @keyframes sway {
             0% { transform: rotate(calc(var(--angle) - 3deg)); }
             100% { transform: rotate(calc(var(--angle) + 3deg)); }
@@ -234,6 +270,12 @@
             80% { opacity: 0.8; }
             100% { transform: translate(var(--moveX), -100vh) rotate(-45deg); opacity: 0; }
         }
+
+        @keyframes fallDown {
+            0% { transform: translate(0, 0) rotate(0deg); opacity: 1; }
+            80% { opacity: 1; }
+            100% { transform: translate(var(--wind), 80vh) rotate(720deg); opacity: 0; }
+        }
     </style>
 </head>
 <body>
@@ -248,39 +290,68 @@
 
     <script>
         const bouquet = document.getElementById('bouquet');
-        
-        // MÁS flores (25 en total) para llenar el espacio
         const numFlowers = 25; 
+
+        function createFallingPetals(x, y, isDaisy) {
+            const numFalling = Math.floor(Math.random() * 3) + 2; 
+            
+            for(let i = 0; i < numFalling; i++){
+                const drop = document.createElement('div');
+                drop.className = 'falling-petal';
+                
+                if(isDaisy) {
+                    drop.style.width = '6px';
+                    drop.style.height = '25px';
+                    drop.style.background = 'linear-gradient(to bottom, #fff59d, #ffee58)';
+                    drop.style.borderRadius = '50px';
+                } else {
+                    drop.style.width = '10px';
+                    drop.style.height = '30px';
+                    drop.style.background = 'linear-gradient(to bottom, #fff176, #fbc02d)';
+                    drop.style.borderRadius = '50% 50% 20% 20%';
+                }
+
+                drop.style.left = `${x + (Math.random() * 30 - 15)}px`;
+                drop.style.top = `${y + (Math.random() * 20 - 10)}px`;
+                
+                const duration = 2.5 + Math.random() * 2; 
+                const wind = (Math.random() - 0.5) * 120; 
+                drop.style.setProperty('--wind', `${wind}px`);
+                drop.style.animation = `fallDown ${duration}s ease-in forwards`;
+                
+                document.body.appendChild(drop);
+                
+                setTimeout(() => {
+                    drop.remove();
+                }, duration * 1000);
+            }
+        }
 
         for (let i = 0; i < numFlowers; i++) {
             const flowerWrapper = document.createElement('div');
-            
-            // Decidir si es Girasol o Margarita (50% de probabilidad)
             const isDaisy = Math.random() > 0.5;
             flowerWrapper.className = `flower-wrapper ${isDaisy ? 'daisy' : 'sunflower'}`;
 
-            // CRECIMIENTO DIAGONAL: Esparcimos las flores por todo el ancho de la pantalla
-            const leftPosition = 5 + (Math.random() * 90); // Entre 5% y 95% de la pantalla
+            const leftPosition = 5 + (Math.random() * 90); 
             flowerWrapper.style.left = `${leftPosition}vw`;
 
-            // Ángulo diagonal para que crezcan apuntando hacia afuera y arriba
-            let angle = (leftPosition - 50) * 0.8; 
+            let angle = (leftPosition - 50) * 0.7; 
             angle += (Math.random() * 10 - 5); 
             
             flowerWrapper.style.setProperty('--angle', `${angle}deg`);
             flowerWrapper.style.transform = `rotate(${angle}deg)`;
             
-            const height = 150 + Math.random() * 250; 
+            // USO DE VH PARA QUE SEA RESPONSIVO:
+            // La altura ahora es un porcentaje de la pantalla (entre 20% y 55% de la altura total)
+            const heightVh = 20 + Math.random() * 35; 
             const delay = Math.random() * 2.5; 
             flowerWrapper.style.animationDelay = `${delay}s`;
 
-            // Tallo (Stem)
             const stem = document.createElement('div');
             stem.className = 'stem';
-            stem.style.height = `${height}px`;
+            stem.style.height = `${heightVh}vh`; // Aplicado en Viewport Height
             stem.style.animationDelay = `${delay}s`;
 
-            // Hojas (Leaves)
             const leafRight = document.createElement('div');
             leafRight.className = 'leaf';
             leafRight.style.setProperty('--rot', '20deg');
@@ -294,23 +365,36 @@
             stem.appendChild(leafRight);
             stem.appendChild(leafLeft);
 
-            // Cabeza de la flor (Flower Head)
             const head = document.createElement('div');
             head.className = 'flower-head';
             head.style.animationDelay = `${delay + 1.5}s`;
 
-            // Centro de la flor
+            // Detectar mouse en computadora
+            head.addEventListener('mouseenter', function(e) {
+                const rect = this.getBoundingClientRect();
+                const x = rect.left + rect.width / 2;
+                const y = rect.top + rect.height / 2;
+                createFallingPetals(x, y, isDaisy);
+            });
+
+            // Detectar toque en celulares
+            head.addEventListener('touchstart', function(e) {
+                const rect = this.getBoundingClientRect();
+                const x = rect.left + rect.width / 2;
+                const y = rect.top + rect.height / 2;
+                createFallingPetals(x, y, isDaisy);
+            }, {passive: true});
+
             const center = document.createElement('div');
             center.className = 'flower-center';
             head.appendChild(center);
 
-            // Pétalos 
             const numPetals = isDaisy ? 24 : 16;
             for (let p = 0; p < numPetals; p++) {
                 const petal = document.createElement('div');
                 petal.className = 'petal';
                 const petalRotation = p * (360 / numPetals);
-                const translateY = isDaisy ? '-20px' : '-25px';
+                const translateY = isDaisy ? '-15px' : '-20px';
                 petal.style.transform = `rotate(${petalRotation}deg) translateY(${translateY})`;
                 head.appendChild(petal);
             }
@@ -320,7 +404,6 @@
             bouquet.appendChild(flowerWrapper);
         }
 
-        // Crear pocos corazones amarillos flotando en diagonal
         for (let i = 0; i < 7; i++) {
             const heart = document.createElement('div');
             heart.className = 'yellow-heart';
@@ -336,8 +419,7 @@
             document.body.appendChild(heart);
         }
 
-        // Crear brillos de fondo
-        for (let i = 0; i < 40; i++) {
+        for (let i = 0; i < 30; i++) {
             const sparkle = document.createElement('div');
             sparkle.className = 'sparkle';
             const size = Math.random() * 4 + 1;
